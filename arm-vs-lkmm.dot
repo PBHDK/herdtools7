@@ -1,0 +1,42 @@
+digraph G {
+
+
+/* legend */
+label="Test arm-vs-lkmm, Generic(ARM)";
+
+
+/* init events */
+eiid6 [label="g: W[y]=0\lInit", shape="box", color="blue"];
+eiid7 [label="h: W[x]=0\lInit", shape="box", color="blue"];
+
+/* the unlocked events */
+subgraph cluster_proc0 { rank=sink; label = "Thread 0"; color=magenta; shape=box;
+eiid0 [label="a: R[x]=1\lproc:P0 poi:0\lLDR R0,[R2]", shape="box", color="blue"];
+eiid1 [label="b: W[x]=1\lproc:P0 poi:2\lSTR R1,[R2]", shape="box", color="blue"];
+}
+subgraph cluster_proc1 { rank=sink; label = "Thread 1"; color=magenta; shape=box;
+eiid2 [label="c: R[x]=1\lproc:P1 poi:0\lLDR R0,[R1]", shape="box", color="blue"];
+eiid3 [label="d: W[y]=1\lproc:P1 poi:1\lSTR R0,[R2]", shape="box", color="blue"];
+}
+subgraph cluster_proc2 { rank=sink; label = "Thread 2"; color=magenta; shape=box;
+eiid4 [label="e: R[y]=1\lproc:P2 poi:0\lLDR R0,[R2]", shape="box", color="blue"];
+eiid5 [label="f: W[x]=1\lproc:P2 poi:1\lSTR R0,[R1]", shape="box", color="blue"];
+}
+
+/* the intra_causality_data edges */
+
+
+/* the intra_causality_control edges */
+
+/* the poi edges */
+eiid0 -> eiid1 [label="po", color="black", fontcolor="black"];
+eiid2 -> eiid3 [label="po", color="black", fontcolor="black"];
+eiid4 -> eiid5 [label="po", color="black", fontcolor="black"];
+/* the rfmap edges */
+eiid5 -> eiid0 [label="rf", color="red", fontcolor="red"];
+eiid1 -> eiid2 [label="rf", color="red", fontcolor="red"];
+eiid3 -> eiid4 [label="rf", color="red", fontcolor="red"];
+
+
+/* The viewed-before edges */
+}
